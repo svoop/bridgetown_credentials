@@ -1,61 +1,124 @@
+[![Version](https://img.shields.io/gem/v/bridgetown_credentials.svg?style=flat)](https://rubygems.org/gems/bridgetown_credentials)
+[![Tests](https://img.shields.io/github/workflow/status/svoop/bridgetown_credentials/Test.svg?style=flat&label=tests)](https://github.com/svoop/bridgetown_credentials/actions?workflow=Test)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/svoop/bridgetown_credentials.svg?style=flat)](https://codeclimate.com/github/svoop/bridgetown_credentials/)
+[![Donorbox](https://img.shields.io/badge/donate-on_donorbox-yellow.svg)](https://donorbox.org/bitcetera)
+
 # Credentials for Bridgetown
 
-_NOTE: This isn't a real plugin! Copy this sample code and use it to create your own Ruby gem! [Help guide here…](https://www.bridgetownrb.com/docs/plugins)_ 😃
+This plugin adds Rails-like encrypted credentials to Bridgetown.
 
-_You can run_ `bridgetown plugins new` _to easily set up a customized verison of this starter repo._
+Credentials like passwords, access tokens and other secrets are often passed to sites each by it's own ENV variable. This is both uncool, non-atomic and therefore unreliable. Use this plugin to store your credentials in encrypted YAML files which you can safely commit to your source code repository. In order to use all of them in Bridgetown, you have to set or pass exactly one ENV variable holding the key to decrypt.
 
-A Bridgetown plugin to [fill in the blank]…
+* [Homepage](https://github.com/svoop/bridgetown_credentials)
+* [API](https://www.rubydoc.info/gems/bridgetown_credentials)
+* Author: [Sven Schwyn - Bitcetera](https://bitcetera.com)
 
 ## Installation
 
-Run this command to add this plugin to your site's Gemfile:
+First add this gem to your bundle:
 
 ```shell
-$ bundle add my-awesome-plugin -g bridgetown_plugins
+$ bundle add bridgetown_credentials
 ```
 
-Or if there's a `bridgetown.automation.rb` automation script, you can run that instead for guided setup:
+Then enable it in `config/initializers.rb`:
 
-```shell
-$ bin/bridgetown apply https://github.com/username/my-awesome-plugin
+```ruby
+init :bridgetown_credentials
 ```
 
 ## Usage
 
-The plugin will…
+### First Time
 
-### Optional configuration options
+Make sure you have set the `EDITOR` variable set to your favourite editor and then create a new credentials file:
 
-The plugin will automatically use any of the following metadata variables if they are present in your site's `_data/site_metadata.yml` file.
+```shell
+echo $EDITOR
+bridgetown credentials:edit
+```
 
-…
+You might want to add something along the lines of:
 
-## Testing
+```yml
+foo: bar
+aws:
+  access_key_id: awsXid
+  secret_access_key: awsXsecret
+google:
+  maps:
+    api_key: goomXkey
+  places:
+    api_key: goopXkey
+```
 
-* Run `bundle exec rake test` to run the test suite
-* Or run `script/cibuild` to validate with Rubocop and Minitest together.
+After saving the file, the following new files have been created:
 
-## Contributing
+```
+config/
+ └─ credentials/
+     ├─ development.key
+     ├─ development.yml.enc
+     ├─ production.key
+     └─ production.yml.enc
+```
 
-1. Fork it (https://github.com/username/my-awesome-plugin/fork)
-2. Clone the fork using `git clone` to your local development machine.
-3. Create your feature branch (`git checkout -b my-new-feature`)
-4. Commit your changes (`git commit -am 'Add some feature'`)
-5. Push to the branch (`git push origin my-new-feature`)
-6. Create a new Pull Request
+⚠️ Move the `*.key` files to a safe place such as a password manager now! Never check them into the source code repository!
 
-----
+The credentials you've edited above have been written to `development.yml.enc` and will be available when Bridgetown is in `development` mode.
 
-## Releasing (you can delete this section in your own plugin repo)
+To edit the credentials for `production` mode:
 
-To release a new version of the plugin, simply bump up the version number in both `version.rb` and
-`package.json`, and then run `script/release`. This will require you to have a registered account
-with both the [RubyGems.org](https://rubygems.org) and [NPM](https://www.npmjs.com) registries.
-You can optionally remove the `package.json` and `frontend` folder if you don't need to package frontend
-assets for Webpack.
+```shell
+bridgetown credentials:edit -e production
+```
 
-If you run into any problems or need further guidance, please check out our [Bridgetown community resources](https://www.bridgetownrb.com/docs/community)
-where friendly folks are standing by to help you build and release your plugin or theme.
+To edit or use a credentials file from now on, you have to set the corresponding key as an ENV variable. The actual key is the content of the `*.key` file you should have tucked away above.
 
-**NOTE:** make sure you add the `bridgetown-plugin` [topic](https://github.com/topics/bridgetown-plugin) to your
-plugin's GitHub repo so the plugin or theme will show up on [Bridgetown's official Plugin Directory](https://www.bridgetownrb.com/plugins)! (There may be a day or so delay before you see it appear.)
+```shell
+export BRIDGETOWN_DEVELOPMENT_KEY="10aabbccddeeff00112233445566778899"
+export BRIDGETOWN_PRODUCTION_KEY="20aabbccddeeff00112233445566778899"
+```
+
+#### Unified Environments
+
+If you prefer not to separate credentials between different environments:
+
+```shell
+rm config/credentials/production.*
+mv config/credentials/development.yml config/credentials.yml
+rmdir config/credentials
+```
+
+To edit or use this from now on, you have to set:
+
+
+```shell
+export BRIDGETOWN_CREDENTIALS_KEY="30aabbccddeeff00112233445566778899"
+```
+
+⚠️ If `config/credentials.yml` is present, any other credentials files are ignored.
+
+### Read
+
+Throughout the Bridgetown stack, you can now use the credentials as follows:
+
+```ruby
+Bridgetown.credentials.foo                   # => "bar"
+Bridgetown.credentials.aws.access_key_id     # => "awsXid"
+Bridgetown.credentials.google.maps.api_key   # => "goomXkey"
+```
+
+### Commands
+
+* `bridgetown credentials:edit` – edit the credentials
+* `bridgetown credentials:show` – dump the decrypted credentials to STDOUT
+
+## Tests
+
+* `bundle exec rake test` to run the test suite
+* `script/cibuild` to validate with Rubocop and Minitest together
+
+## Development
+
+You're welcome to [submit issues](https://github.com/svoop/bridgetown_credentials/issues) and contribute code by [forking the project and submitting pull requests](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
