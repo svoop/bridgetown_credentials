@@ -2,6 +2,7 @@
 /.bundle/
 /.yardoc
 /Gemfile.lock
+/gems.locked
 /_yardoc/
 /coverage/
 /doc/
@@ -15,22 +16,10 @@
 mkmf.log
 *.gem
 Gemfile.lock
+gems.locked
 .bundle
 .ruby-version
-
-# Node
-node_modules
-.npm
-.node_repl_history
-
-# Yarn
-yarn-error.log
-yarn-debug.log*
-.pnp/
-.pnp.js
-
-# Yarn Integrity file
-.yarn-integrity
+.DS_Store
 
 test/dest
 .bridgetown-metadata
