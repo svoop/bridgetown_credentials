@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/svoop/bridgetown_credentials"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r!^(test|script|spec|features|frontend)/!) }
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r!^(test|script|spec|features)/!) }
   spec.test_files    = spec.files.grep(%r!^test/!)
   spec.require_paths = ["lib"]
   spec.metadata      = { "yarn-add" => "bridgetown_credentials@#{BridgetownCredentials::VERSION}" }
