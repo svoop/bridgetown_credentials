@@ -27,15 +27,28 @@ Then enable it in `config/initializers.rb`:
 init :bridgetown_credentials
 ```
 
+For the time being, it's necessary to [require this gem early in the boot process](https://www.bridgetownrb.com/docs/plugins/commands) for the commands to be picked up. Add `config/boot.rb` to your site reading:
+
+```ruby
+Bundler.setup(:default, Bridgetown.env)
+require "bridgetown_credentials"
+```
+
+For safety, you should exclude key files from the source code repository:
+
+```shell
+bin/bridgetown apply "$(bundle info --path bridgetown_credentials)/bridgetown.automation.rb"
+```
+
 ## Usage
 
 ### First Time
 
-Make sure you have set the `EDITOR` variable set to your favourite editor and then create a new credentials file:
+Make sure you have set the `EDITOR` variable to your favourite editor and then create a new credentials file:
 
 ```shell
 echo $EDITOR
-bridgetown credentials:edit
+bin/bridgetown credentials edit
 ```
 
 You might want to add something along the lines of:
@@ -58,9 +71,7 @@ After saving the file, the following new files have been created:
 config/
  └─ credentials/
      ├─ development.key
-     ├─ development.yml.enc
-     ├─ production.key
-     └─ production.yml.enc
+     └─ development.yml.enc
 ```
 
 ⚠️ Move the `*.key` files to a safe place such as a password manager now! Never check them into the source code repository!
@@ -70,7 +81,7 @@ The credentials you've edited above have been written to `development.yml.enc` a
 To edit the credentials for `production` mode:
 
 ```shell
-bridgetown credentials:edit -e production
+bin/bridgetown credentials edit -e production
 ```
 
 To edit or use a credentials file from now on, you have to set the corresponding key as an ENV variable. The actual key is the content of the `*.key` file you should have tucked away above.
@@ -90,6 +101,13 @@ mv config/credentials/development.yml config/credentials.yml
 rmdir config/credentials
 ```
 
+This simplifies the files to:
+
+```
+config/
+ └─ credentials.yml.enc
+```
+
 To edit or use this from now on, you have to set:
 
 
@@ -104,15 +122,15 @@ export BRIDGETOWN_CREDENTIALS_KEY="30aabbccddeeff00112233445566778899"
 Throughout the Bridgetown stack, you can now use the credentials as follows:
 
 ```ruby
-Bridgetown.credentials.foo                   # => "bar"
-Bridgetown.credentials.aws.access_key_id     # => "awsXid"
-Bridgetown.credentials.google.maps.api_key   # => "goomXkey"
+Bridgetown.credentials.foo                            # => "bar"
+Bridgetown.credentials.aws[:access_key_id]            # => "awsXid"
+Bridgetown.credentials.google.dig((:maps, :api_key)   # => "goomXkey"
 ```
 
 ### Commands
 
-* `bridgetown credentials:edit` – edit the credentials
-* `bridgetown credentials:show` – dump the decrypted credentials to STDOUT
+* `bin/bridgetown credentials edit` – edit the credentials
+* `bin/bridgetown credentials show` – dump the decrypted credentials to STDOUT
 
 ## Tests
 
