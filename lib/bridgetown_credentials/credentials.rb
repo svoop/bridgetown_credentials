@@ -5,7 +5,7 @@ module BridgetownCredentials
 
     attr_reader :credentials
 
-    def initialize(root_dir: ::Bridgetown.configuration.root_dir, env: ::Bridgetown.env)
+    def initialize(root_dir:, env:)
       @config_path = Pathname(root_dir).join('config')   # NOTE: config dir is hardcoded as of bridgetown-1.2
       @env = env
       @credentials = credentials_path ? load : create

@@ -1,19 +1,13 @@
 require_relative '../../spec_helper'
 
-KEYS = {
-  unified: '4f9ab3ef4bddd3ad6d01886b6ffff49c',
-  development: 'e4af0afc87c885a430afa3c9691d8bf4',
-  production: '5f1380543df0a4c839324619e0acf0bf'
-}
-
 describe BridgetownCredentials::Credentials do
-  context "unified" do
+  context "unified credentials" do
     let :root_dir do
       fixtures_path.join('unified')
     end
 
     subject do
-      BridgetownCredentials::Credentials.new(root_dir: root_dir)
+      BridgetownCredentials::Credentials.new(root_dir: root_dir, env: 'development')
     end
 
     describe :credentials_path do
@@ -48,9 +42,9 @@ describe BridgetownCredentials::Credentials do
     end
   end
 
-  context "not unified" do
+  context "separated credentials" do
     let :root_dir do
-      fixtures_path.join('not_unified')
+      fixtures_path.join('separated')
     end
 
     subject do
@@ -85,6 +79,18 @@ describe BridgetownCredentials::Credentials do
       it "returns the decoded config with stringified keys" do
         ENV['BRIDGETOWN_PRODUCTION_KEY'] = KEYS[:production]
         _(subject.config).must_equal({ 'production' => 'PRODUCTION' })
+      end
+    end
+  end
+
+  context "new credentials" do
+    describe :initializer do
+      it "generate a key" do
+        Dir.mktmpdir do |root_dir|
+          root_dir = Pathname(root_dir)
+          BridgetownCredentials::Credentials.new(root_dir: root_dir, env: 'foobar')
+          _(root_dir.join('config', 'credentials', 'foobar.key')).path_must_exist
+        end
       end
     end
   end

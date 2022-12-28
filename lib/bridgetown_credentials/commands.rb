@@ -3,8 +3,8 @@
 module BridgetownCredentials
   class Commands
 
-    def initialize
-      @credentials = BridgetownCredentials::Credentials.new
+    def initialize(root_dir: ::Bridgetown.configuration.root_dir, env: ::Bridgetown.env)
+      @credentials = BridgetownCredentials::Credentials.new(root_dir: root_dir, env: env)
     end
 
     def edit
