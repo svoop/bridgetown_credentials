@@ -24,7 +24,7 @@ module BridgetownCredentials
     private
 
     def yaml
-      Psych.safe_dump(@credentials.config)[4..] if @credentials.config.any?
+      @credentials.config.to_yaml[4..] if @credentials.config.any?
     end
   end
 end
