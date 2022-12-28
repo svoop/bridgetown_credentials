@@ -12,7 +12,8 @@ module BridgetownCredentials
     end
 
     def config
-      credentials.config.transform_keys(&:to_s)
+      # NOTE: key transformation may become obsolete some day - see https://github.com/ruby/psych/issues/396
+      credentials.config.deep_stringify_keys
     end
 
     private
