@@ -9,7 +9,7 @@ module BridgetownCredentials
 
     def edit
       tempfile = Tempfile.new('btcs')
-      tempfile.write yaml
+      tempfile.write @credentials.credentials.read
       tempfile.close
       system "#{ENV['EDITOR']} #{tempfile.path}"
       @credentials.credentials.write File.read(tempfile.path)
@@ -18,13 +18,7 @@ module BridgetownCredentials
     end
 
     def show
-      puts yaml
-    end
-
-    private
-
-    def yaml
-      @credentials.config.to_yaml[4..] if @credentials.config.any?
+      puts @credentials.credentials.read
     end
   end
 end

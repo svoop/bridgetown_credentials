@@ -33,13 +33,6 @@ describe BridgetownCredentials::Credentials do
         _{ subject.credentials.config }.must_raise RuntimeError
       end
     end
-
-    describe :config do
-      it "returns the decoded config with stringified keys" do
-        ENV['BRIDGETOWN_CREDENTIALS_KEY'] = KEYS[:unified]
-        _(subject.config).must_equal({ 'unified' => 'UNIFIED' })
-      end
-    end
   end
 
   context "separated credentials" do
@@ -72,13 +65,6 @@ describe BridgetownCredentials::Credentials do
       it "fails if no key env var is set" do
         ENV['BRIDGETOWN_PRODUCTION_KEY'] = nil
         _{ subject.credentials.config }.must_raise RuntimeError
-      end
-    end
-
-    describe :config do
-      it "returns the decoded config with stringified keys" do
-        ENV['BRIDGETOWN_PRODUCTION_KEY'] = KEYS[:production]
-        _(subject.config).must_equal({ 'production' => 'PRODUCTION' })
       end
     end
   end

@@ -5,7 +5,6 @@ require "bridgetown"
 require 'tempfile'
 require 'yaml'
 require "active_support/encrypted_configuration"
-require "active_support/core_ext/hash/keys"
 
 require_relative "bridgetown_credentials/version"
 require_relative "bridgetown_credentials/credentials"

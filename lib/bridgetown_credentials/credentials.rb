@@ -11,11 +11,6 @@ module BridgetownCredentials
       @credentials = credentials_path ? load : create
     end
 
-    def config
-      # NOTE: key transformation may become obsolete some day - see https://github.com/ruby/psych/issues/396
-      credentials.config.deep_stringify_keys
-    end
-
     private
 
     def credentials_path
