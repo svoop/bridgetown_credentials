@@ -40,6 +40,17 @@ For safety, you should exclude key files from the source code repository:
 bin/bridgetown apply "$(bundle info --path bridgetown_credentials)/bridgetown.automation.rb"
 ```
 
+### Secure Installation
+
+This gem is [cryptographically signed](https://guides.rubygems.org/security/#using-gems) in order to assure it hasn't been tampered with.
+
+To install it securely, add the author's public key as a trusted certificate and then install the bundle with the trust policy of your choice:
+
+```shell
+gem cert --add <(curl -Ls https://raw.github.com/svoop/bridgetown_credentials/main/certs/svoop.pem)
+bundle install --trust-policy MediumSecurity
+```
+
 ## Usage
 
 ### First Time
