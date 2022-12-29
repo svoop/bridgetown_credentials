@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
     'bug_tracker_uri'   => 'https://github.com/svoop/bridgetown_credentials/issues'
   }
 
-  spec.files         = Dir['lib/**/*']
+  spec.files         = Dir['lib/**/*', '*.automation.rb']
   spec.test_files    = Dir['spec/**/*']
   spec.require_paths = %w(lib)
 
