@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.1.1
+
 * Fix typo in dependency to Bridgetown
 
 ## 0.1.0
