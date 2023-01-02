@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 3.0.0"
 
-  spec.add_runtime_dependency "bridgetown", "= 1.2.0.beta4", "< 2.0"
+  spec.add_runtime_dependency "bridgetown", ">= 1.2.0.beta4", "< 2.0"
   spec.add_runtime_dependency "activesupport", "~> 7"
 
   spec.add_development_dependency 'debug'
