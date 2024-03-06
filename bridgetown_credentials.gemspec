@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
     'bug_tracker_uri'   => 'https://github.com/svoop/bridgetown_credentials/issues'
   }
 
-  spec.files         = Dir['lib/**/*', '*.automation.rb']
+  spec.files         = Dir['lib/**/*']
   spec.test_files    = Dir['spec/**/*']
   spec.require_paths = %w(lib)
 
@@ -46,7 +46,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0.0"
 
   spec.add_runtime_dependency "bridgetown", ">= 1.2.0", "< 2.0"
-  spec.add_runtime_dependency "activesupport", "~> 7"
+  spec.add_runtime_dependency "dry-credentials", "~> 0", ">= 0.2.1"
 
   spec.add_development_dependency 'debug'
   spec.add_development_dependency 'rake'
@@ -56,4 +56,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'guard'
   spec.add_development_dependency 'guard-minitest'
   spec.add_development_dependency 'yard'
+
+  spec.post_install_message = "⚠️ Breaking change: bridgetown_credentials >= 1.0.0 no longer depends on ActiveSupport. Please read the update section in the README for how to migrate your Bridgetown site. Don't worry, it's a piece of cake!"
 end

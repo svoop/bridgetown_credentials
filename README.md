@@ -7,7 +7,7 @@
 
 This plugin adds Rails-like encrypted credentials to Bridgetown.
 
-Credentials like passwords, access tokens and other secrets are often passed to sites each by it's own ENV variable. This is both uncool, non-atomic and therefore unreliable. Use this plugin to store your credentials in encrypted YAML files which you can safely commit to your source code repository. In order to use all of them in Bridgetown, you have to set or pass exactly one ENV variable holding the key to decrypt.
+Credentials like passwords, access tokens and other secrets are often passed to sites each by its own ENV variable. This is both uncool, non-atomic and therefore unreliable. Use this plugin to store your credentials in encrypted YAML files which you can safely commit to your source code repository. In order to use all of them in Bridgetown, you have to set or pass exactly one ENV variable holding the key to decrypt.
 
 * [Homepage](https://github.com/svoop/bridgetown_credentials)
 * [API](https://www.rubydoc.info/gems/bridgetown_credentials)
@@ -34,12 +34,6 @@ Bundler.setup(:default, Bridgetown.env)
 require "bridgetown_credentials"
 ```
 
-For safety, you should exclude key files from the source code repository:
-
-```shell
-bin/bridgetown apply "$(bundle info --path bridgetown_credentials)/bridgetown.automation.rb"
-```
-
 ### Secure Installation
 
 This gem is [cryptographically signed](https://guides.rubygems.org/security/#using-gems) in order to assure it hasn't been tampered with.
@@ -49,6 +43,32 @@ To install it securely, add the author's public key as a trusted certificate and
 ```shell
 gem cert --add <(curl -Ls https://raw.github.com/svoop/bridgetown_credentials/main/certs/svoop.pem)
 bundle install --trust-policy MediumSecurity
+```
+
+## Update from 0.x.x to 1.x.x
+
+From version 1.0.0 upwards, this gem uses [Dry::Credentials](https://rubygems.org/gems/dry-credentials) instead of ActiveSupport (which is planned to be ditched from Bridgetown at some point in the future). This requires you to take some additional steps:
+
+1. Backup the decrypted credentials for every environment:<br>`bin/bridgetown credentials edit -e ENVIRONMENT`
+2. Delete (or move elsewhere) your old encrypted credentials files:<br>`rm config/credentials/*`
+3. Update this gem to a version >= 1:<br>`bundle update bridgetown_credentials`
+4. Create new encrypted credentials files for every environment:<br>`bin/bridgetown credentials edit -e ENVIRONMENT`
+5. Step 4 prints the new ENV variable which contains the private key required whenever you edit or query credentials. Example: For the development environment, the new ENV variable `DEVELOPMENT_CREDENTIALS_KEY` replaces the old ENV variable `BRIDGETOWN_DEVELOPMENT_KEY`.
+
+Please note that Dry::Credentials does not support unified environments (one `config/credentials.yml.enc` for both development and production) anymore!
+
+Also, nested credentials have to be queried differently now and thus you might have to update your Bridgetown site accordingly. Given the example credentials from the [Usage section](#usage) below:
+
+```ruby
+# Queries on version 0.x.x
+Bridgetown.credentials.foo                            # => "bar"
+Bridgetown.credentials.aws[:access_key_id]            # => "awsXid"
+Bridgetown.credentials.google.dig((:maps, :api_key)   # => "goomXkey"
+
+# Queries on version 1.x.x
+Bridgetown.credentials.foo                            # => "bar"
+Bridgetown.credentials.aws.access_key_id              # => "awsXid"
+Bridgetown.credentials.google.maps.api_key            # => "goomXkey"
 ```
 
 ## Usage
@@ -76,18 +96,9 @@ google:
     api_key: goopXkey
 ```
 
-After saving the file, the following new files have been created:
+After saving, the private key required to encrypt/decrypt the credentials is printed this first time only. Make sure you store this information in a safe place, you will need it in the future.
 
-```
-config/
- └─ credentials/
-     ├─ development.key
-     └─ development.yml.enc
-```
-
-⚠️ Move the `*.key` files to a safe place such as a password manager now! Never check them into the source code repository!
-
-The credentials you've edited above have been written to `development.yml.enc` and will be available when Bridgetown is in `development` mode.
+The credentials you've edited above has been written to `config/credentials/development.yml.enc` and will be loaded when Bridgetown is in `development` mode.
 
 To edit the credentials for `production` mode:
 
@@ -95,53 +106,31 @@ To edit the credentials for `production` mode:
 bin/bridgetown credentials edit -e production
 ```
 
-To edit or use a credentials file from now on, you have to set the corresponding key as an ENV variable. The actual key is the content of the `*.key` file you should have tucked away above.
+To edit or query credentials from now on, the corresponding ENV variable with the private key has to be set:
 
 ```shell
-export BRIDGETOWN_DEVELOPMENT_KEY="10aabbccddeeff00112233445566778899"
-export BRIDGETOWN_PRODUCTION_KEY="20aabbccddeeff00112233445566778899"
+export DEVELOPMENT_CREDENTIALS_KEY="4c87...af93"
+export PRODUCTION_CREDENTIALS_KEY="92bb...820f"
 ```
 
-#### Unified Environments
+### Edit
 
-If you prefer not to separate credentials between different environments:
-
-```shell
-rm config/credentials/production.*
-mv config/credentials/development.yml config/credentials.yml
-rmdir config/credentials
-```
-
-This simplifies the files to:
+The command is the same as the first time:
 
 ```
-config/
- └─ credentials.yml.enc
+bin/bridgetown credentials edit
+bin/bridgetown credentials edit -e production
 ```
 
-To edit or use this from now on, you have to set:
-
-
-```shell
-export BRIDGETOWN_CREDENTIALS_KEY="30aabbccddeeff00112233445566778899"
-```
-
-⚠️ If `config/credentials.yml` is present, any other credentials files are ignored.
-
-### Read
+### Query
 
 Throughout the Bridgetown stack, you can now use the credentials as follows:
 
 ```ruby
-Bridgetown.credentials.foo                            # => "bar"
-Bridgetown.credentials.aws[:access_key_id]            # => "awsXid"
-Bridgetown.credentials.google.dig((:maps, :api_key)   # => "goomXkey"
+Bridgetown.credentials.foo                   # => "bar"
+Bridgetown.credentials.aws.access_key_id     # => "awsXid"
+Bridgetown.credentials.google.maps.api_key   # => "goomXkey"
 ```
-
-### Commands
-
-* `bin/bridgetown credentials edit` – edit the credentials
-* `bin/bridgetown credentials show` – dump the decrypted credentials to STDOUT
 
 ## Tests
 

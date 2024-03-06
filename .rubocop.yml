@@ -16,7 +16,6 @@ AllCops:
     - LICENSE.txt
     - README.md
     - Rakefile
-    - bridgetown.automation.rb
 
     - script/**/*
     - vendor/**/*
