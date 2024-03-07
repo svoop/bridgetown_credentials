@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 1.0.0
+
 ### Breaking Changes
 * Switch from ActiveSupport to dry-credentials (see README)
 
