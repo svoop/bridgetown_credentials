@@ -1,7 +1,7 @@
 [![Version](https://img.shields.io/gem/v/bridgetown_credentials.svg?style=flat)](https://rubygems.org/gems/bridgetown_credentials)
 [![Tests](https://img.shields.io/github/actions/workflow/status/svoop/bridgetown_credentials/test.yml?style=flat&label=tests)](https://github.com/svoop/bridgetown_credentials/actions?workflow=Test)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/svoop/bridgetown_credentials.svg?style=flat)](https://codeclimate.com/github/svoop/bridgetown_credentials/)
-[![Donorbox](https://img.shields.io/badge/donate-on_donorbox-yellow.svg)](https://donorbox.org/bitcetera)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/svoop.svg)](https://github.com/sponsors/svoop)
 
 # Credentials for Bridgetown
 
@@ -12,6 +12,8 @@ Credentials like passwords, access tokens and other secrets are often passed to 
 * [Homepage](https://github.com/svoop/bridgetown_credentials)
 * [API](https://www.rubydoc.info/gems/bridgetown_credentials)
 * Author: [Sven Schwyn - Bitcetera](https://bitcetera.com)
+
+Thank you for supporting free and open-source software by sponsoring on [GitHub](https://github.com/sponsors/svoop) or on [Donorbox](https://donorbox.com/bitcetera). Any gesture is appreciated, from a single Euro for a ☕️ cup of coffee to 🍹 early retirement.
 
 ## Installation
 
