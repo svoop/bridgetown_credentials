@@ -7,8 +7,6 @@ Nothing so far
 #### Changes
 * Update Ruby to 3.4
 
-Nothing so far
-
 ## 1.0.0
 
 ### Breaking Changes
