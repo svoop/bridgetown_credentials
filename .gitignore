@@ -18,7 +18,6 @@ mkmf.log
 Gemfile.lock
 gems.locked
 .bundle
-.ruby-version
 .DS_Store
 
 test/dest
