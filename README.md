@@ -36,17 +36,6 @@ Bundler.setup(:default, Bridgetown.env)
 require "bridgetown_credentials"
 ```
 
-### Secure Installation
-
-This gem is [cryptographically signed](https://guides.rubygems.org/security/#using-gems) in order to assure it hasn't been tampered with.
-
-To install it securely, add the author's public key as a trusted certificate and then install the bundle with the trust policy of your choice:
-
-```shell
-gem cert --add <(curl -Ls https://raw.github.com/svoop/bridgetown_credentials/main/certs/svoop.pem)
-bundle install --trust-policy MediumSecurity
-```
-
 ## Update from 0.x.x to 1.x.x
 
 From version 1.0.0 upwards, this gem uses [Dry::Credentials](https://rubygems.org/gems/dry-credentials) instead of ActiveSupport (which is planned to be ditched from Bridgetown at some point in the future). This requires you to take some additional steps:

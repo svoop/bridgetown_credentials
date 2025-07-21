@@ -1,20 +1,21 @@
 ## Main
 
-Nothing so far
+### Changes
+* Drop certs
 
 ## 1.0.1
 
-#### Changes
+### Changes
 * Update Ruby to 3.4
 
 ## 1.0.0
 
-### Breaking Changes
+### Breaking changes
 * Switch from ActiveSupport to dry-credentials (see README)
 
 ## 0.2.0
 
-### Breaking Changes
+### Breaking changes
 * Update dependency to at least bridgetown-1.2.0 (final)
 
 ## 0.1.1
