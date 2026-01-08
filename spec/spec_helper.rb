@@ -12,4 +12,5 @@ require 'minitest/autorun'
 require Pathname(__dir__).join('..', 'lib', 'bridgetown_credentials')
 
 require 'minitest/flash'
-require 'minitest/focus'
+
+Minitest.load_plugins
