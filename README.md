@@ -131,3 +131,5 @@ Bridgetown.credentials.google.maps.api_key   # => "goomXkey"
 ## Development
 
 You're welcome to [submit issues](https://github.com/svoop/bridgetown_credentials/issues) and contribute code by [forking the project and submitting pull requests](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+
+By the way: The underscore in the gem name "bridgetown_credentials" is no accident. While the common gem naming convention rather suggests a dash, [Bridgetown chose to prefer underscores for its plugins](https://www.bridgetownrb.com/docs/plugins#creating-a-gem).
