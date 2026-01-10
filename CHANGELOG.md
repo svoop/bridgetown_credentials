@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 1.2.0
+
 ### Changes
 * Allow Bridgetown >=2 after successful tests
 
