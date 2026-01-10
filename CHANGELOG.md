@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+### Changes
+* Allow Bridgetown >=2 after successful tests
 
 ## 1.1.1
 

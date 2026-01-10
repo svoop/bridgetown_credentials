@@ -40,10 +40,8 @@ Gem::Specification.new do |spec|
     '--quiet'
   ]
 
-  spec.required_ruby_version = ">= 3.0.0"
-
-  spec.add_runtime_dependency "bridgetown", ">= 1.2.0", "< 2.0"
-  spec.add_runtime_dependency "dry-credentials", "~> 0", ">= 0.2.1"
+  spec.add_runtime_dependency "bridgetown"
+  spec.add_runtime_dependency "dry-credentials", ">= 0.2.1"
 
   spec.add_development_dependency 'debug'
   spec.add_development_dependency 'rake'
