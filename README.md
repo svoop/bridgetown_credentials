@@ -104,6 +104,19 @@ export DEVELOPMENT_CREDENTIALS_KEY="4c87...af93"
 export PRODUCTION_CREDENTIALS_KEY="92bb...820f"
 ```
 
+Alternatively, you can omit the first part of the variable name. Such a key will be used for any app environment, but a more specific key will always take precedence. This is particularly useful when working with containerized setups:
+
+```sh
+export CREDENTIALS_KEY="4c87...af93"
+```
+
+You can also read keys from files which is the recommended way when using [secrets in Docker Compose](https://docs.docker.com/compose/how-tos/use-secrets/). Just append `_FILE` to the corresponding environment variable name and set it to the path from which the secret can be read, for example:
+
+```db
+export DEVELOPMENT_CREDENTIALS_KEY_FILE=/run/secrets/sandbox_credentials_key
+export CREDENTIALS_KEY_FILE=/run/secrets/credentials_key
+```
+
 ### Edit
 
 The command is the same as the first time:

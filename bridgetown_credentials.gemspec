@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   ]
 
   spec.add_runtime_dependency "bridgetown"
-  spec.add_runtime_dependency "dry-credentials", ">= 0.2.1"
+  spec.add_runtime_dependency "dry-credentials", ">= 0.6.0"
 
   spec.add_development_dependency 'debug'
   spec.add_development_dependency 'rake'
