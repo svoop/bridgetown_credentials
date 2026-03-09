@@ -19,6 +19,7 @@ Gemfile.lock
 gems.locked
 .bundle
 .DS_Store
+.mise.local.toml
 
 test/dest
 .bridgetown-metadata
