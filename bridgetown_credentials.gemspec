@@ -20,11 +20,12 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.metadata = {
-    'homepage_uri'      => spec.homepage,
-    'changelog_uri'     => 'https://github.com/svoop/bridgetown_credentials/blob/main/CHANGELOG.md',
-    'source_code_uri'   => 'https://github.com/svoop/bridgetown_credentials',
-    'documentation_uri' => 'https://www.rubydoc.info/gems/bridgetown_credentials',
-    'bug_tracker_uri'   => 'https://github.com/svoop/bridgetown_credentials/issues'
+    'homepage_uri'          => spec.homepage,
+    'changelog_uri'         => 'https://github.com/svoop/bridgetown_credentials/blob/main/CHANGELOG.md',
+    'source_code_uri'       => 'https://github.com/svoop/bridgetown_credentials',
+    'documentation_uri    ' => 'https://www.rubydoc.info/gems/bridgetown_credentials',
+    'bug_tracker_uri'       => 'https://github.com/svoop/bridgetown_credentials/issues',
+    'rubygems_mfa_required' => 'true'
   }
 
   spec.files         = Dir['lib/**/*']
